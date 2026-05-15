@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+
 using System.Collections.Generic;
 using System.Text;
+
 using TsMap.Common;
 using TsMap.FileSystem;
 
@@ -10,10 +12,8 @@ namespace TsMap
     {
         public string Name { get; set; }
         public string Group { get; set; }
-        [JsonIgnore]
         public string LocalizationToken { get; set; }
         public string Country { get; set; }
-        [JsonIgnore]
         public ulong Token { get; set; }
         [JsonIgnore]
         public List<int> XOffsets { get; }
@@ -24,7 +24,8 @@ namespace TsMap
         {
             var file = UberFileSystem.Instance.GetFile(path);
 
-            if (file == null) return;
+            if (file == null)
+                return;
 
             var fileContent = file.Entry.Read();
 
@@ -36,7 +37,8 @@ namespace TsMap
             foreach (var line in lines)
             {
                 var (validLine, key, value) = SiiHelper.ParseLine(line);
-                if (!validLine) continue;
+                if (!validLine)
+                    continue;
 
                 if (key == "city_data")
                 {
@@ -63,15 +65,18 @@ namespace TsMap
                 {
                     if (++offsetCount > 4)
                     {
-                        if (int.TryParse(value, out var offset)) XOffsets.Add(offset);
+                        if (int.TryParse(value, out var offset))
+                            XOffsets.Add(offset);
                     }
-                    if (offsetCount == 8) offsetCount = 0;
+                    if (offsetCount == 8)
+                        offsetCount = 0;
                 }
                 else if (key.Contains("map_y_offsets[]"))
                 {
                     if (++offsetCount > 4)
                     {
-                        if (int.TryParse(value, out var offset)) YOffsets.Add(offset);
+                        if (int.TryParse(value, out var offset))
+                            YOffsets.Add(offset);
                     }
                 }
             }
