@@ -96,17 +96,17 @@ namespace TsMap
                         case "bus":
                             vehicle = TsVehicleType.Bus;
                             break;
-                        case "tram":
-                            vehicle = TsVehicleType.Tram;
-                            break;
                         case "truck":
                             vehicle = TsVehicleType.Truck;
                             break;
-                        case "train":
-                            vehicle = TsVehicleType.Train;
+                        default:
+                            vehicle = TsVehicleType.Other;
                             break;
                     }
-                    Speeds.Add(vehicle, new Dictionary<string, Dictionary<TsSpeedType, float>>());
+                    if (vehicle != TsVehicleType.Other)
+                    {
+                        Speeds.Add(vehicle, new Dictionary<string, Dictionary<TsSpeedType, float>>());
+                    }
                 }
                 else if (newLine.Contains("limit[]:"))
                 {
@@ -115,20 +115,32 @@ namespace TsMap
                     switch (speedLine[0].Trim())
                     {
                         case "limit[]":
-                            Speeds[vehicle][road][TsSpeedType.Limit] = speed;
+                            if (vehicle != TsVehicleType.Other)
+                            {
+                                Speeds[vehicle][road][TsSpeedType.Limit] = speed;
+                            }
                             break;
                         case "max_limit[]":
-                            Speeds[vehicle][road][TsSpeedType.MaxLimit] = speed;
+                            if (vehicle != TsVehicleType.Other)
+                            {
+                                Speeds[vehicle][road][TsSpeedType.MaxLimit] = speed;
+                            }
                             break;
                         case "urban_limit[]":
-                            Speeds[vehicle][road][TsSpeedType.UrbanLimit] = speed;
+                            if (vehicle != TsVehicleType.Other)
+                            {
+                                Speeds[vehicle][road][TsSpeedType.UrbanLimit] = speed;
+                            }
                             break;
                     }
                 }
                 else if (newLine.Contains("\tlane_speed_class[]:"))
                 {
                     road = newLine.Split(':')[1].Trim();
-                    Speeds[vehicle][road] = new Dictionary<TsSpeedType, float>();
+                    if (vehicle != TsVehicleType.Other)
+                    {
+                        Speeds[vehicle][road] = new Dictionary<TsSpeedType, float>();
+                    }
                 }
 
             }

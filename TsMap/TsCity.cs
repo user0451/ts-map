@@ -11,9 +11,11 @@ namespace TsMap
     public class TsCity
     {
         public string Name { get; set; }
+        [JsonIgnore]
         public string Group { get; set; }
         public string LocalizationToken { get; set; }
         public string Country { get; set; }
+        [JsonIgnore]
         public ulong Token { get; set; }
         [JsonIgnore]
         public List<int> XOffsets { get; }

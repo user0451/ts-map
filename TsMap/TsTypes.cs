@@ -152,8 +152,7 @@ namespace TsMap
         Car,
         Truck,
         Bus,
-        Train,
-        Tram
+        Other
     }
     public enum TsSpeedType
     {
