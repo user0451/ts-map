@@ -12,6 +12,11 @@ namespace TsMap
 {
     public class TsCountry
     {
+        //add order so Speeds appears last in our object when serialized to json
+        [JsonProperty(Order = 100)]
+        public Dictionary<TsVehicleType, Dictionary<string, Dictionary<TsSpeedType, float>>> Speeds = 
+            new Dictionary<TsVehicleType, Dictionary<string, Dictionary<TsSpeedType, float>>>();
+
         [JsonIgnore]
         public ulong Token { get; }
         public int CountryId { get; }
@@ -21,18 +26,13 @@ namespace TsMap
         public string CountryCode { get; }
         public float X { get; }
         public float Y { get; }
-
-        public Dictionary<TsVehicleType, Dictionary<string, Dictionary<TsSpeedType, float>>> Speeds = new Dictionary<TsVehicleType, Dictionary<string, Dictionary<TsSpeedType, float>>>();
-
+        
         public TsCountry(string path)
         {
             var file = UberFileSystem.Instance.GetFile(path);
-
-            if (file == null)
-                return;
+            if (file == null) return;
 
             var fileContent = file.Entry.Read();
-
             var lines = Encoding.UTF8.GetString(fileContent).Split('\n');
 
             foreach (var line in lines)
@@ -74,6 +74,8 @@ namespace TsMap
                     Y = float.Parse(values[2], CultureInfo.InvariantCulture);
                 }
             }
+
+
 
             var fileSpeed = UberFileSystem.Instance.GetFile(path.Split('.')[0] + "/speed_limits.sii");
             if (fileSpeed == null)
@@ -144,6 +146,7 @@ namespace TsMap
                 }
 
             }
+
         }
     }
 }

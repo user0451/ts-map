@@ -448,7 +448,7 @@ namespace TsMap
         /// Creates a json file with the positions and names (w/ localizations) of all cities
         /// </summary>
         public void ExportCities(ExportFlags exportFlags, string path)
-        {
+         {
             if (!Directory.Exists(path)) return;
             var citiesJArr = new JArray();
             foreach (var city in Cities)
